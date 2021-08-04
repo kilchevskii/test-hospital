@@ -1,11 +1,10 @@
 import { call, put, takeEvery } from "redux-saga/effects";
 import { getEmployees } from "..//..//..//api";
 
-
 const getData = async () => {
-    const result = await getEmployees()
-    return result.sort((a, b) => a.lastname > b.lastname ? 1 : -1);
-    };
+  const result = await getEmployees();
+  return result.sort((a, b) => (a.lastname > b.lastname ? 1 : -1));
+};
 
 function* fetchEmployees() {
   try {

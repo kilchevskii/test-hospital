@@ -1,19 +1,42 @@
-import { Form, Input, Button } from "antd";
-import React, { useState, useEffect } from "react";
-import { createEmployee } from "../../redux/actions/actionEmpoyees";
-import { useDispatch } from "react-redux";
+import { Table, Typography } from "antd";
+import { useEffect } from "react";
+import { useParams } from "react-router";
+import { getBreackRules } from "./Helpers";
+const { Text } = Typography;
 
+const DataBase = ({ worklog }) => {
+  let { id } = useParams();
+  const columns = [
+    {
+      title: "Id",
+      dataIndex: "employee_id",
+    },
+    {
+      title: "Прибыл",
+      dataIndex: "from",
+      align: "center",
+    },
+    {
+      title: "Убыл",
+      dataIndex: "myId",
+      align: "center",
+      render: (text) => (
+        <div type={getBreackRules(worklog, text?.id)}>{text?.to}</div>
+      ),
+    },
+  ];
+  useEffect(() => {
+    console.log(id);
+  }, [])
+  const data = worklog
+    .filter((item) => item.employee_id === +id)
+    .map((item) => ({
+      ...item,
+      myId: { id: item.id, to: item.to },
+    }));
 
-const DataBase = ( {employees} ) => {
-  const dispatch = useDispatch();
-  // console.log(employees.map(item => item.id));  
-  // useEffect(() => {
-  //   console.log(employees);
-  // }, [])
   return (
-    <>
-      <p>{employees?.id}</p>
-    </>
+    <Table columns={columns} dataSource={data} pagination={false} rowKey="id" />
   );
 };
 
